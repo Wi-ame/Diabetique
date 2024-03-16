@@ -1,0 +1,7 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/lavender1" /> <!-- Utilisez une valeur d'alpha faible (00) pour la transparence -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/lavender" />
+    <corners android:radius="8dp" />
+</shape>

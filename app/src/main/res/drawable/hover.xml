@@ -1,0 +1,21 @@
+<!-- res/drawable/button_selector.xml -->
+
+<!-- res/drawable/button_selector.xml -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/jaune" /> <!-- Couleur du bouton lorsqu'il est pressé -->
+        </shape>
+    </item>
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/jaune" /> <!-- Couleur du bouton lorsqu'il est survolé -->
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/lavender1" /> <!-- Couleur du bouton par défaut -->
+        </shape>
+    </item>
+</selector>

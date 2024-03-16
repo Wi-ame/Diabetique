@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/transparent"
+    tools:context=".poid_pat"
+    android:layout_marginTop="120dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/img" />
+        <TextView
+            android:id="@+id/tvActivitePhysique"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enregistrer la taille et le poids "
+            android:layout_marginTop="180dp"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/lavender"
+            android:typeface="serif"
+            android:layout_marginBottom="40dp"/>
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="240dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/border3"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editTextWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Entrez le poids (en kg)"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:inputType="numberDecimal"
+                android:layout_marginTop="30dp"
+                android:padding="16dp"
+                />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="35dp"/> <!-- Espace de 8dp entre les deux EditText -->
+
+            <EditText
+                android:id="@+id/editTextHeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Entrez la taille (en cm)"
+                android:inputType="numberDecimal"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="30dp"
+                android:padding="16dp"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/buttonSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calculer IMC"
+            android:layout_below="@+id/container"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="#93C572"
+            android:layout_marginStart="16dp"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_marginEnd="16dp"/>
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonSubmit"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text=""
+            android:textStyle="bold"
+            android:textColor="@color/lavender"
+            android:textSize="18sp"/>
+        <ImageButton
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewResult"
+            android:layout_marginLeft="280dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/white"
+            app:srcCompat="@drawable/icone_next"
+            app:tint="#00FF00" />
+    </RelativeLayout>
+</ScrollView>
+

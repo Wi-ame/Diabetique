@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/allergie"
+        android:layout_marginTop="180dp" />
+
+    <TextView
+        android:id="@+id/tvActivitePhysique"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vous êtes allergiques ?"
+        android:layout_below="@id/imageView"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:textColor="@color/lavender"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvActivitePhysique"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <RadioButton
+            android:id="@+id/radioButtonOui"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Oui"
+            android:textSize="20sp"
+            android:padding="12dp"
+            android:layout_marginEnd="20dp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non"
+            android:textSize="20sp"
+            android:padding="12dp" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editTextAllergie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonsLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:hint="Entrez vos allergies..."
+        android:layout_marginStart="30dp"
+
+        />
+
+    <Button
+        android:id="@+id/buttonNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="120dp"
+        android:layout_marginEnd="20dp"
+        android:padding="12dp"
+        android:textSize="20sp" />
+
+</RelativeLayout>

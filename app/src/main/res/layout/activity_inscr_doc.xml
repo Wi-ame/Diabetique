@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/transparent"
+    tools:context=".Inscr_Doc">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">    <TextView
+        android:id="@+id/tvActivitePhysique"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fiche d'inscription "
+        android:textColor="@color/lavender"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageView0_8"
+        android:layout_marginTop="15dp"/>
+    <ImageView
+        android:id="@+id/imageView0_8"
+        android:layout_width="0dp"
+        android:layout_height="192dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/insc"
+        app:layout_constraintBottom_toTopOf="@+id/border3"
+        app:layout_constraintDimensionRatio="523:198"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/border3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border3"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/imageView0_8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <EditText
+            android:id="@+id/editTextFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="Nom complet" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:inputType="textEmailAddress"
+            android:hint="Email" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:inputType="textPassword"
+            android:hint="Mot de passe" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <EditText
+            android:id="@+id/editTextConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:inputType="textPassword"
+            android:hint="Confirmer le mot de passe" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <EditText
+            android:id="@+id/editTextPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:inputType="phone"
+            android:hint="Numéro de téléphone" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+        <EditText
+            android:id="@+id/editTextDoctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="Adresse"
+            android:layout_marginBottom="15dp"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/buttonNext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Next"
+        android:backgroundTint="@color/lavender"
+        app:layout_constraintTop_toBottomOf="@+id/border3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

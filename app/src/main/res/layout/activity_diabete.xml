@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/choisirSexeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selectionner votre type de diabète"
+        android:textColor="@color/lavender"
+        android:textSize="22sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:layout_marginBottom="20dp"/>
+    <ImageView
+        android:id="@+id/imagetype1"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:src="@drawable/type1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/choisirSexeText"
+        android:layout_marginTop="25dp"
+        android:clickable="true"
+        android:onClick="imagetype1" />
+    <ImageView
+        android:id="@+id/imagetype2"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:src="@drawable/type2"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/imagetype1"
+        android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:layout_marginEnd="20dp"
+        android:onClick="onFemaleImageClick"/>
+</RelativeLayout>

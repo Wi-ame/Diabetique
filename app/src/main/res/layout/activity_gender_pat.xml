@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/choisirSexeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choisissez votre sexe"
+        android:textSize="20sp"
+        android:textColor="@color/lavender"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:layout_marginBottom="20dp"/>
+    <ImageView
+        android:id="@+id/imageViewMale"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/homme1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/choisirSexeText"
+        android:layout_marginTop="25dp"
+        android:clickable="true"
+        android:onClick="onMaleImageClick" />
+    <ImageView
+        android:id="@+id/imageViewFemale"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/femme1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/imageViewMale"
+        android:layout_marginTop="40dp"
+        android:clickable="true"
+        android:onClick="onFemaleImageClick"/>
+</RelativeLayout>
