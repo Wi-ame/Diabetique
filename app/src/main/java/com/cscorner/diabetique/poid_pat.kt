@@ -9,8 +9,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 
 class poid_pat : AppCompatActivity() {
+    private var viewModel: Patient = Patient()
     private lateinit var resultTextView: TextView
     private lateinit var weightEditText: EditText
     private lateinit var heightEditText: EditText
@@ -21,13 +24,24 @@ class poid_pat : AppCompatActivity() {
         weightEditText = findViewById(R.id.editTextWeight)
         heightEditText = findViewById(R.id.editTextHeight)
         resultTextView = findViewById(R.id.textViewResult) // Ajout de cette ligne
+        viewModel = ViewModelProvider(this).get(Patient::class.java)
 
         val buttonImage: ImageButton = findViewById(R.id.button)
 
         buttonImage.setOnClickListener {
-            // Appel de la fonction pour passer à la page suivante
-            goToNextPage()
+            if (validateInput()) {
+                // Enregistrement des données dans le ViewModel
+                viewModel.savePage6Data(
+                    weightEditText.text.toString().toDouble(),
+                    heightEditText.text.toString().toDouble()
+                )
+                // Appel de la fonction pour passer à la page suivante
+                goToNextPage()
+            }
         }
+
+
+
 
         val submitButton: Button = findViewById(R.id.buttonSubmit)
         submitButton.setOnClickListener { onSubmitClicked(it) }
@@ -77,6 +91,17 @@ class poid_pat : AppCompatActivity() {
     private fun calculateBMI(weight: Double, height: Double): Double {
         // Formule de l'IMC : poids (kg) / (taille (m) * taille (m))
         return weight / ((height / 100) * (height / 100))
+    }
+
+    private fun validateInput(): Boolean {
+        // Vérifie si les champs de poids et de taille sont vides
+        return if (TextUtils.isEmpty(weightEditText.text.toString()) || TextUtils.isEmpty(heightEditText.text.toString())) {
+            // Affichage d'un message d'erreur si les champs sont vides
+            Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
+            false
+        } else {
+            true
+        }
     }
 
 }

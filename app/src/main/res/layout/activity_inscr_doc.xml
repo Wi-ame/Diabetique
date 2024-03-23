@@ -6,10 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/transparent"
     tools:context=".Inscr_Doc">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">    <TextView
+        android:layout_height="wrap_content">
+        <TextView
         android:id="@+id/tvActivitePhysique"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="8dp" />
         <EditText
-            android:id="@+id/editTextDoctor"
+            android:id="@+id/editTextAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -128,5 +128,6 @@
         app:layout_constraintTop_toBottomOf="@+id/border3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import androidx.lifecycle.ViewModelProvider
 
 class Information : AppCompatActivity() {
+    private var viewModel: Patient = Patient()
     private lateinit var editTextFullName: EditText
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
@@ -24,14 +27,30 @@ class Information : AppCompatActivity() {
         editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber)
         editTextDoctor = findViewById(R.id.editTextDoctor)
         buttonNext = findViewById(R.id.buttonNext)
+        viewModel = ViewModelProvider(this).get(Patient::class.java)
+
         buttonNext.setOnClickListener {
-            // Vérifiez ici si les informations sont valides avant de passer à l'étape suivante
-            // Pour l'exemple, simplement démarrer l'activité suivante
-            startSexActivity()
+            val fullName = editTextFullName.text.toString()
+            val email = editTextEmail.text.toString()
+            val password = editTextPassword.text.toString()
+            val confirmPassword = editTextConfirmPassword.text.toString()
+            val phoneNumber = editTextPhoneNumber.text.toString()
+            val doctor = editTextDoctor.text.toString()
+
+            viewModel.savePage1Data(fullName, email, password, confirmPassword, phoneNumber, doctor)
+            val intent = Intent(this, gender_pat::class.java)
+            intent.putExtra("fullName", fullName)
+            intent.putExtra("email", email)
+            intent.putExtra("password", password)
+            intent.putExtra("passwordconf", confirmPassword)
+            intent.putExtra("phoneNumber", phoneNumber)
+            intent.putExtra("doctor", doctor)
+
+
+
+            startActivity(intent)
+
         }
     }
-    private fun startSexActivity() {
-        val intent = Intent(this, gender_pat::class.java)
-        startActivity(intent)
-    }
+
 }

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
      android:background="@drawable/sp"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".physique">
     <TextView
         android:id="@+id/tvActivitePhysique"
         android:layout_width="wrap_content"
@@ -26,7 +27,7 @@
         android:orientation="vertical"
         tools:ignore="NotSibling">
         <Button
-            android:id="@+id/buttonNon"
+            android:id="@+id/Non"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginBottom="20dp"
@@ -37,7 +38,7 @@
             android:textSize="20dp"
             android:textStyle="bold" />
         <Button
-            android:id="@+id/buttonPromenades"
+            android:id="@+id/Des_Promenades"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="Seulement des promenades"
@@ -48,7 +49,7 @@
             android:layout_marginBottom="20dp"
             />
         <Button
-            android:id="@+id/button1A2Fois"
+            android:id="@+id/Une_a_2fois_parsemaine"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="1 à 2 fois par semaine"
@@ -59,7 +60,7 @@
             android:layout_marginBottom="20dp"
             />
         <Button
-            android:id="@+id/button3A5Fois"
+            android:id="@+id/trois_a_5fois_parsemaine"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="3 à 5 fois par semaine"

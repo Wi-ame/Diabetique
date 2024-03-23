@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Diabete">
     <TextView
         android:id="@+id/choisirSexeText"
         android:layout_width="wrap_content"
@@ -16,7 +16,7 @@
         android:typeface="serif"
         android:layout_marginBottom="20dp"/>
     <ImageView
-        android:id="@+id/imagetype1"
+        android:id="@+id/Type1"
         android:layout_width="250dp"
         android:layout_height="200dp"
         android:src="@drawable/type1"
@@ -26,12 +26,12 @@
         android:clickable="true"
         android:onClick="imagetype1" />
     <ImageView
-        android:id="@+id/imagetype2"
+        android:id="@+id/Type2"
         android:layout_width="250dp"
         android:layout_height="200dp"
         android:src="@drawable/type2"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/imagetype1"
+        android:layout_below="@id/Type1"
         android:layout_marginTop="30dp"
         android:clickable="true"
         android:layout_marginEnd="20dp"

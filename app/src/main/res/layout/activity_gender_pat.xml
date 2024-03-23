@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".gender_pat">
     <TextView
         android:id="@+id/choisirSexeText"
         android:layout_width="wrap_content"
@@ -16,7 +16,7 @@
         android:typeface="serif"
         android:layout_marginBottom="20dp"/>
     <ImageView
-        android:id="@+id/imageViewMale"
+        android:id="@+id/Male"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/homme1"
@@ -26,12 +26,12 @@
         android:clickable="true"
         android:onClick="onMaleImageClick" />
     <ImageView
-        android:id="@+id/imageViewFemale"
+        android:id="@+id/Female"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/femme1"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/imageViewMale"
+        android:layout_below="@id/Male"
         android:layout_marginTop="40dp"
         android:clickable="true"
         android:onClick="onFemaleImageClick"/>
