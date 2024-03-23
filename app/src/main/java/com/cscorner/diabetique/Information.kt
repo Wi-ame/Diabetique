@@ -9,7 +9,6 @@ import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 
 class Information : AppCompatActivity() {
-    private var viewModel: Patient = Patient()
     private lateinit var editTextFullName: EditText
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
@@ -27,7 +26,6 @@ class Information : AppCompatActivity() {
         editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber)
         editTextDoctor = findViewById(R.id.editTextDoctor)
         buttonNext = findViewById(R.id.buttonNext)
-        viewModel = ViewModelProvider(this).get(Patient::class.java)
 
         buttonNext.setOnClickListener {
             val fullName = editTextFullName.text.toString()
@@ -36,8 +34,6 @@ class Information : AppCompatActivity() {
             val confirmPassword = editTextConfirmPassword.text.toString()
             val phoneNumber = editTextPhoneNumber.text.toString()
             val doctor = editTextDoctor.text.toString()
-
-            viewModel.savePage1Data(fullName, email, password, confirmPassword, phoneNumber, doctor)
             val intent = Intent(this, gender_pat::class.java)
             intent.putExtra("fullName", fullName)
             intent.putExtra("email", email)
@@ -45,11 +41,7 @@ class Information : AppCompatActivity() {
             intent.putExtra("passwordconf", confirmPassword)
             intent.putExtra("phoneNumber", phoneNumber)
             intent.putExtra("doctor", doctor)
-
-
-
             startActivity(intent)
-
         }
     }
 

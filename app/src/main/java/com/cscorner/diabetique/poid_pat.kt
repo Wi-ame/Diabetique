@@ -13,30 +13,62 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 
 class poid_pat : AppCompatActivity() {
-    private var viewModel: Patient = Patient()
+    private lateinit var fullName: String
+    private lateinit var email: String
+    private lateinit var password: String
+    private lateinit var confirmPassword: String
+    private lateinit var phoneNumber: String
+    private lateinit var doctor: String
+    private lateinit var gender: String
+    private lateinit var age: String
+    private lateinit var diabete :String
     private lateinit var resultTextView: TextView
     private lateinit var weightEditText: EditText
     private lateinit var heightEditText: EditText
+    private fun createIntentWithPoids(poids: String, taille: String): Intent {
+        val intent = Intent(this, physqiue::class.java)
+        intent.putExtras(intent.extras ?: Bundle())
+        intent.putExtra("poids",poids)
+        intent.putExtra("taille",taille)
+        return intent
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poid_pat)
         weightEditText = findViewById(R.id.editTextWeight)
         heightEditText = findViewById(R.id.editTextHeight)
-        resultTextView = findViewById(R.id.textViewResult) // Ajout de cette ligne
-        viewModel = ViewModelProvider(this).get(Patient::class.java)
+        resultTextView = findViewById(R.id.textViewResult)
+        fullName = intent.getStringExtra("fullName") ?: ""
+        email = intent.getStringExtra("email") ?: ""
+        password = intent.getStringExtra("password") ?: ""
+        confirmPassword = intent.getStringExtra("confirmPassword") ?: ""
+        phoneNumber = intent.getStringExtra("phoneNumber") ?: ""
+        doctor = intent.getStringExtra("doctor") ?: ""
+        gender =intent.getStringExtra("gender") ?: ""
+        age = intent.getStringExtra("age")?: ""
+        diabete =intent.getStringExtra("diabete")?: ""
 
         val buttonImage: ImageButton = findViewById(R.id.button)
 
         buttonImage.setOnClickListener {
             if (validateInput()) {
-                // Enregistrement des données dans le ViewModel
-                viewModel.savePage6Data(
-                    weightEditText.text.toString().toDouble(),
-                    heightEditText.text.toString().toDouble()
-                )
-                // Appel de la fonction pour passer à la page suivante
-                goToNextPage()
+                val poids: String = weightEditText.text.toString()
+                val taille: String = heightEditText.text.toString()
+                val intent = createIntentWithPoids(poids,taille).apply{
+                    putExtra("fullName", fullName)
+                    putExtra("email", email)
+                    putExtra("password", password)
+                    putExtra("passwordconf", confirmPassword)
+                    putExtra("phoneNumber", phoneNumber)
+                    putExtra("doctor", doctor)
+                    putExtra("gender", gender)
+                    putExtra("age", age)
+                    putExtra("diabete",diabete)
+                }
+                startNextActivity(intent)
             }
         }
 
@@ -45,11 +77,6 @@ class poid_pat : AppCompatActivity() {
 
         val submitButton: Button = findViewById(R.id.buttonSubmit)
         submitButton.setOnClickListener { onSubmitClicked(it) }
-    }
-    private fun goToNextPage() {
-        // Intent pour démarrer l'activité suivante
-        val intent = Intent(this, physqiue::class.java)
-        startActivity(intent)
     }
 
     private fun onSubmitClicked(view: View) {
@@ -103,5 +130,7 @@ class poid_pat : AppCompatActivity() {
             true
         }
     }
-
+    private fun startNextActivity(intent: Intent) {
+        startActivity(intent)
+    }
 }

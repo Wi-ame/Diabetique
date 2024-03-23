@@ -7,27 +7,64 @@ import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 
 class Diabete : AppCompatActivity() {
-    private var viewModel: Patient = Patient()
+    private lateinit var fullName: String
+    private lateinit var email: String
+    private lateinit var password: String
+    private lateinit var confirmPassword: String
+    private lateinit var phoneNumber: String
+    private lateinit var doctor: String
+    private lateinit var gender: String
+    private lateinit var age: String
+    private fun createIntentWithDiabete(diabete: String): Intent {
+        val intent = Intent(this, poid_pat::class.java)
+        intent.putExtras(intent.extras ?: Bundle())
+        intent.putExtra("diabete", diabete)
+        return intent
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_diabete)
         val imageViewType1: ImageView = findViewById(R.id.Type1)
         val imageViewType2: ImageView = findViewById(R.id.Type2)
-        viewModel = ViewModelProvider(this).get(Patient::class.java)
-
+        fullName = intent.getStringExtra("fullName") ?: ""
+        email = intent.getStringExtra("email") ?: ""
+        password = intent.getStringExtra("password") ?: ""
+        confirmPassword = intent.getStringExtra("confirmPassword") ?: ""
+        phoneNumber = intent.getStringExtra("phoneNumber") ?: ""
+        doctor = intent.getStringExtra("doctor") ?: ""
+        gender =intent.getStringExtra("gender") ?: ""
+        age = intent.getStringExtra("age")?: ""
         imageViewType1.setOnClickListener {
-            viewModel.savePage5Data("Type 1")
-            startNextActivity()
+            val intent = createIntentWithDiabete("Type1").apply {
+                putExtra("fullName", fullName)
+                putExtra("email", email)
+                putExtra("password", password)
+                putExtra("passwordconf", confirmPassword)
+                putExtra("phoneNumber", phoneNumber)
+                putExtra("doctor", doctor)
+                putExtra("gender", gender)
+                putExtra("age", age)
+            }
+            startNextActivity(intent)
         }
 
         imageViewType2.setOnClickListener {
-            viewModel.savePage5Data("Type 2")
-            startNextActivity()
+            val intent = createIntentWithDiabete("Type2").apply {
+                putExtra("fullName", fullName)
+                putExtra("email", email)
+                putExtra("password", password)
+                putExtra("passwordconf", confirmPassword)
+                putExtra("phoneNumber", phoneNumber)
+                putExtra("doctor", doctor)
+                putExtra("gender", gender)
+                putExtra("age", age)
+            }
+            startNextActivity(intent)
         }
+
     }
-    private fun startNextActivity() {
-        // Vous pouvez passer des données supplémentaires à l'activité suivante ici
-        val intent = Intent(this, poid_pat::class.java)
+    private fun startNextActivity(intent: Intent) {
         startActivity(intent)
     }
 }

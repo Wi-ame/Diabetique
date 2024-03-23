@@ -7,11 +7,29 @@ import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 
 class age_pat : AppCompatActivity() {
-    private var viewModel: Patient = Patient()
+    private lateinit var fullName: String
+    private lateinit var email: String
+    private lateinit var password: String
+    private lateinit var confirmPassword: String
+    private lateinit var phoneNumber: String
+    private lateinit var doctor: String
+    private lateinit var gender: String
+    private fun createIntentWithAge(age: String): Intent {
+        val intent = Intent(this,Diabete::class.java)
+        intent.putExtras(intent.extras ?: Bundle())
+        intent.putExtra("age", age)
+        return intent
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_age_pat)
-        viewModel = ViewModelProvider(this).get(Patient::class.java)
+        fullName = intent.getStringExtra("fullName") ?: ""
+        email = intent.getStringExtra("email") ?: ""
+        password = intent.getStringExtra("password") ?: ""
+        confirmPassword = intent.getStringExtra("confirmPassword") ?: ""
+        phoneNumber = intent.getStringExtra("phoneNumber") ?: ""
+        doctor = intent.getStringExtra("doctor") ?: ""
+        gender =intent.getStringExtra("gender") ?: ""
 
         val imageViewYoung: ImageView = findViewById(R.id.Age_18_33)
         val imageViewMature: ImageView = findViewById(R.id.Age_33_44)
@@ -20,33 +38,66 @@ class age_pat : AppCompatActivity() {
 
         imageViewYoung.setOnClickListener {
 
-            viewModel.savePage3Data("18-33")
-
-
-            startNextActivity()
+            val intent = createIntentWithAge("18-33").apply{
+                putExtra("fullName", fullName)
+                putExtra("email", email)
+                putExtra("password", password)
+                putExtra("passwordconf", confirmPassword)
+                putExtra("phoneNumber", phoneNumber)
+                putExtra("doctor", doctor)
+                putExtra("gender", gender)
+            }
+            startNextActivity(intent)
         }
 
         imageViewMature.setOnClickListener {
-            viewModel.savePage3Data("33-44")
+            val intent = createIntentWithAge("33-44").apply{
+                putExtra("fullName", fullName)
+                putExtra("email", email)
+                putExtra("password", password)
+                putExtra("passwordconf", confirmPassword)
+                putExtra("phoneNumber", phoneNumber)
+                putExtra("doctor", doctor)
+                putExtra("gender", gender)
+            }
+            startNextActivity(intent)
 
-            startNextActivity()
+
+
         }
 
         imageViewAvant.setOnClickListener {
-            viewModel.savePage3Data("44-55")
+            val intent = createIntentWithAge("44-55").apply{
+                putExtra("fullName", fullName)
+                putExtra("email", email)
+                putExtra("password", password)
+                putExtra("passwordconf", confirmPassword)
+                putExtra("phoneNumber", phoneNumber)
+                putExtra("doctor", doctor)
+                putExtra("gender", gender)
+            }
+            startNextActivity(intent)
 
-            startNextActivity()
+
         }
 
         imageViewLast.setOnClickListener {
-            viewModel.savePage3Data("55+")
-            startNextActivity()
+            val intent = createIntentWithAge("55+").apply{
+                putExtra("fullName", fullName)
+                putExtra("email", email)
+                putExtra("password", password)
+                putExtra("passwordconf", confirmPassword)
+                putExtra("phoneNumber", phoneNumber)
+                putExtra("doctor", doctor)
+                putExtra("gender", gender)
+            }
+
+            startNextActivity(intent)
+
         }
     }
 
-    private fun startNextActivity() {
-        // Remplacez NextActivity::class.java par le nom de votre activité suivante
-        val intent = Intent(this, Diabete::class.java)
+    private fun startNextActivity(intent: Intent) {
         startActivity(intent)
     }
 
