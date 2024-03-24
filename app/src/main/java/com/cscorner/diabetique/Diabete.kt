@@ -30,7 +30,7 @@ class Diabete : AppCompatActivity() {
         fullName = intent.getStringExtra("fullName") ?: ""
         email = intent.getStringExtra("email") ?: ""
         password = intent.getStringExtra("password") ?: ""
-        confirmPassword = intent.getStringExtra("confirmPassword") ?: ""
+        confirmPassword = intent.getStringExtra("passwordconf") ?: ""
         phoneNumber = intent.getStringExtra("phoneNumber") ?: ""
         doctor = intent.getStringExtra("doctor") ?: ""
         gender =intent.getStringExtra("gender") ?: ""

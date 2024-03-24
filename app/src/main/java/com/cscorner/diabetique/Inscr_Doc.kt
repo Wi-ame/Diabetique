@@ -16,7 +16,6 @@ class Inscr_Doc : AppCompatActivity() {
     private lateinit var editTextPhoneNumber: EditText
     private lateinit var editTextDoctor: EditText
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inscr_doc)
@@ -28,7 +27,7 @@ class Inscr_Doc : AppCompatActivity() {
         editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber)
         editTextDoctor = findViewById(R.id.editTextAddress)
 
-        // Ajoutez un gestionnaire de clic au bouton "Next"
+        // Ajouter un gestionnaire de clic au bouton "Next"
         buttonNext.setOnClickListener {
             val fullName = editTextFullName.text.toString()
             val email = editTextEmail.text.toString()
@@ -36,30 +35,48 @@ class Inscr_Doc : AppCompatActivity() {
             val confirmPassword = editTextConfirmPassword.text.toString()
             val phoneNumber = editTextPhoneNumber.text.toString()
             val doctorAddress = editTextDoctor.text.toString()
-            if (password != confirmPassword) {
-                // Afficher un message d'erreur avec un Toast
-                Toast.makeText(this@Inscr_Doc, "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+
+            if (fullName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() &&
+                confirmPassword.isNotEmpty() && phoneNumber.isNotEmpty() && doctorAddress.isNotEmpty()
+            ) {
+                if (isValidEmail(email) && isValidPhoneNumber(phoneNumber)) {
+                    if (password != confirmPassword) {
+                        // Afficher un message d'erreur avec un Toast
+                        Toast.makeText(this@Inscr_Doc, "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                    val database = FirebaseDatabase.getInstance()
+                    val reference = database.getReference("doctors")
+
+                    val doctorId = reference.push().key
+
+                    val doctor = Doctor(fullName, email, password, confirmPassword, phoneNumber, doctorAddress)
+
+                    reference.child(doctorId!!).setValue(doctor)
+                        .addOnSuccessListener {
+                            Toast.makeText(this@Inscr_Doc, "Les informations ont été insérées avec succès", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@Inscr_Doc, Doctor_Auth::class.java)
+                            startActivity(intent)
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this@Inscr_Doc, "Erreur : Les informations n'ont pas été insérées", Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    Toast.makeText(this@Inscr_Doc, "Veuillez entrer une adresse email valide et un numéro de téléphone valide", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this@Inscr_Doc, "Tous les champs sont obligatoires", Toast.LENGTH_SHORT).show()
             }
-
-            val database = FirebaseDatabase.getInstance()
-            val reference = database.getReference("doctors")
-
-            val doctorId = reference.push().key
-
-            val doctor = Doctor(fullName, email, password, confirmPassword, phoneNumber, doctorAddress)
-
-            reference.child(doctorId!!).setValue(doctor)
-                .addOnSuccessListener {
-
-                    Toast.makeText(this@Inscr_Doc, "Les informations ont été insérées avec succès", Toast.LENGTH_SHORT).show()
-
-                    val intent = Intent(this@Inscr_Doc, Doctor_Auth::class.java)
-                    startActivity(intent)
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this@Inscr_Doc, "Erreur : Les informations n'ont pas été insérées", Toast.LENGTH_SHORT).show()
-                }
         }
+    }
+
+    private fun isValidPhoneNumber(phoneNumber: String): Boolean {
+        val phonePattern = "^0[0-9]{9}$"
+        return phoneNumber.matches(phonePattern.toRegex())
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+        return email.matches(emailRegex.toRegex())
     }
 }

@@ -5,36 +5,49 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/allergie"
-        android:layout_marginTop="180dp" />
-
-    <TextView
-        android:id="@+id/tvActivitePhysique"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vous êtes allergiques ?"
-        android:layout_below="@id/imageView"
-        android:layout_centerHorizontal="true"
-        android:textStyle="bold"
-        android:textSize="25sp"
-        android:textColor="@color/lavender"
-        android:layout_marginTop="20dp" />
-
-    <EditText
-        android:id="@+id/editTextAllergie"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvActivitePhysique"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:hint="Entrez vos allergies..."
-        android:layout_marginStart="30dp"
-        />
+        android:layout_height="match_parent"
+        android:layout_above="@id/buttonNext"
+        android:layout_marginTop="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/allergie"
+                android:layout_marginTop="180dp" />
+
+            <TextView
+                android:id="@+id/tvActivitePhysique"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vous êtes allergiques ?"
+                android:layout_below="@id/imageView"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:textColor="@color/lavender"
+                android:layout_marginTop="20dp" />
+
+            <EditText
+                android:id="@+id/editTextAllergie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvActivitePhysique"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:hint="Entrez vos allergies..."
+                android:layout_marginStart="30dp"
+                />
+
+        </RelativeLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/buttonNext"
@@ -47,4 +60,17 @@
         android:layout_marginEnd="20dp"
         android:padding="12dp"
         android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tvOptionalMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cette étape est optionnelle"
+        android:layout_above="@id/buttonNext"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="20dp"
+        android:visibility="visible" />
+
 </RelativeLayout>

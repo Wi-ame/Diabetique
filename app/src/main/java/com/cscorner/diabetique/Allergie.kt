@@ -7,7 +7,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.FirebaseDatabase
 
 class Allergie : AppCompatActivity() {
@@ -61,8 +60,6 @@ class Allergie : AppCompatActivity() {
             val poids =poids.toString().trim()
             val taille =taille.toString().trim()
             val activite =activite.toString().trim()
-
-
 
             // Vérifier si le champ d'allergie est vide ou non
             if (allergieText.isNotEmpty()) {
