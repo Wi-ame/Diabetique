@@ -1,13 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="doct_fragment.MenuFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    app:cardCornerRadius="4dp"
+    android:layout_margin="4dp"
+    >
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Menu" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/linear1">
 
-</FrameLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@+id/recipeImg"
+            android:background="@color/lavender"/>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:columnCount="1"
+            android:useDefaultMargins="true">
+            <TextView
+                android:id="@+id/text_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_label"
+                android:textSize="24sp"
+                android:layout_marginEnd="250dp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/text_src"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_src"
+                android:textSize="24sp"
+                android:layout_marginEnd="250dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_weight"
+                android:textSize="24sp"
+                android:layout_marginEnd="250dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_calories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_calories"
+                android:layout_marginEnd="250dp"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_yield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_yield"
+                android:textSize="24sp"
+                android:layout_marginEnd="250dp"
+                android:textStyle="bold" />
+
+
+
+
+
+
+        </GridLayout>
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
