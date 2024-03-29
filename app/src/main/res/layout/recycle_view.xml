@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <androidx.recyclerview.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/recyclerView"
+       android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdge="horizontal"
+        android:fitsSystemWindows="true"
+        android:isScrollContainer="true"
+          android:accessibilityLiveRegion="assertive"
+         android:fadeScrollbars="true"
+    android:overScrollMode="ifContentScrolls"
+    android:saveEnabled="true"
+    android:scrollbars="horizontal|vertical"
+    android:orientation="vertical"
+
+        tools:listitem="@layout/custom_entites" >
+
+</androidx.recyclerview.widget.RecyclerView>
+
