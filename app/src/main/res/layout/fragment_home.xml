@@ -4,10 +4,44 @@
     android:layout_height="match_parent"
     tools:context="doct_fragment.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Conteneur principal du contenu de la page d'accueil -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="home" />
+        android:orientation="vertical">
+        <!-- Barre de recherche -->
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Rechercher un patient"
+            android:padding="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/edit_text_border"
+            android:drawableRight="@drawable/ic_search"/>
+
+        <!-- En-tête de la page -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Liste des patients"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginStart="40dp"
+            android:textColor="@color/lavender"
+            android:typeface="monospace"
+            android:padding="16dp"/>
+
+        <!-- RecyclerView pour afficher la liste des patients -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:scrollbars="vertical"/>
+
+    </LinearLayout>
 
 </FrameLayout>

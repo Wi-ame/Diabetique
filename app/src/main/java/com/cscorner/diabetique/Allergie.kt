@@ -1,5 +1,4 @@
 package com.cscorner.diabetique
-
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -8,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
-
+import com.google.firebase.auth.FirebaseAuth
 class Allergie : AppCompatActivity() {
     private lateinit var editTextAllergie: EditText
     private lateinit var buttonNext: Button
@@ -24,6 +23,7 @@ class Allergie : AppCompatActivity() {
     private lateinit var poids :String
     private lateinit var taille:String
     private lateinit var activite :String
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +43,7 @@ class Allergie : AppCompatActivity() {
         activite =intent.getStringExtra("activite")?: ""
         editTextAllergie = findViewById(R.id.editTextAllergie)
         buttonNext = findViewById(R.id.buttonNext)
+        auth = FirebaseAuth.getInstance()
         // Ajouter un OnClickListener au bouton "Next"
         buttonNext.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -67,10 +68,11 @@ class Allergie : AppCompatActivity() {
                 builder.setTitle("Confirmation")
                 builder.setMessage("Êtes-vous sûr de vouloir continuer ?")
                 builder.setPositiveButton("Oui") { dialog, _ ->
+
                     val database = FirebaseDatabase.getInstance()
                     val reference = database.getReference("patients")
                     val patientId = reference.push().key ?: ""
-                    val patientData = Patient(full,email,pass,conf,phone,doctor,allergieText, gender,age,diabete,poids,taille,activite)
+                    val patientData = Patient(full,email,pass,phone,doctor,allergieText, gender,age,diabete,poids,taille,activite)
                     reference.child(patientId!!).setValue(patientData)
                         .addOnSuccessListener {
 
@@ -94,16 +96,17 @@ class Allergie : AppCompatActivity() {
                 builder.setTitle("Confirmation")
                 builder.setMessage("Êtes-vous sûr de vouloir continuer ?")
                 builder.setPositiveButton("Oui") { dialog, _ ->
+                    auth.createUserWithEmailAndPassword(email, pass)
                     val database = FirebaseDatabase.getInstance()
                     val reference = database.getReference("patients")
                     val patientId = reference.push().key ?: ""
-                    val patientData = Patient(full,email,pass,conf,phone,doctor,"Non", gender,age,diabete,poids,taille,activite)
+                    val patientData = Patient(full,email,pass,phone,doctor,"Non", gender,age,diabete,poids,taille,activite)
                     reference.child(patientId!!).setValue(patientData)
                         .addOnSuccessListener {
 
                             Toast.makeText(this@Allergie, "Les informations ont été insérées avec succès", Toast.LENGTH_SHORT).show()
 
-                            val intent = Intent(this@Allergie, Doctor_Auth::class.java)
+                            val intent = Intent(this@Allergie, Pat_Auth::class.java)
                             startActivity(intent)
                         }
                         .addOnFailureListener {

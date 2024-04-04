@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class Inscr_Doc : AppCompatActivity() {
@@ -15,6 +16,8 @@ class Inscr_Doc : AppCompatActivity() {
     private lateinit var editTextConfirmPassword: EditText
     private lateinit var editTextPhoneNumber: EditText
     private lateinit var editTextDoctor: EditText
+    private lateinit var auth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,7 @@ class Inscr_Doc : AppCompatActivity() {
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword)
         editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber)
         editTextDoctor = findViewById(R.id.editTextAddress)
+        auth = FirebaseAuth.getInstance()
 
         // Ajouter un gestionnaire de clic au bouton "Next"
         buttonNext.setOnClickListener {
@@ -45,12 +49,13 @@ class Inscr_Doc : AppCompatActivity() {
                         Toast.makeText(this@Inscr_Doc, "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
+                    auth.createUserWithEmailAndPassword(email, password)
                     val database = FirebaseDatabase.getInstance()
                     val reference = database.getReference("doctors")
 
                     val doctorId = reference.push().key
 
-                    val doctor = Doctor(fullName, email, password, confirmPassword, phoneNumber, doctorAddress)
+                    val doctor = Doctor(fullName, email, password, phoneNumber, doctorAddress)
 
                     reference.child(doctorId!!).setValue(doctor)
                         .addOnSuccessListener {

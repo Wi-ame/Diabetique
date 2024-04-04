@@ -14,6 +14,7 @@ import com.cscorner.diabetique.pat_fragment.NotificationFragment
 import com.cscorner.diabetique.pat_fragment.ProfilFragment
 import com.cscorner.diabetique.pat_fragment.SettingsFragment
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import doct_fragment.ProfileFragment
 
 class Drawer2 : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -56,6 +57,7 @@ class Drawer2 : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_notification -> replaceFragment(NotificationFragment())
             R.id.nav_profile -> replaceFragment(ProfilFragment())
             R.id.nav_logout -> {
+                FirebaseAuth.getInstance().signOut()
                 val intent = Intent(this@Drawer2, Pat_Auth::class.java)
                 startActivity(intent)
                 finish()

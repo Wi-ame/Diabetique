@@ -82,6 +82,18 @@
                 android:textSize="18sp"
                 android:clickable="true"
                 android:onClick="onSignUpClicked"/>
+            <TextView
+                android:id="@+id/forgotText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:padding="8dp"
+                android:text="Mot de passe oublié ?"
+                android:textColor="@color/lavender"
+                android:textSize="15sp"
+                android:clickable="true"
+                android:onClick="forgotPasswordClicked"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

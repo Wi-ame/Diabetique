@@ -4,7 +4,7 @@ package com.cscorner.diabetique
         var fullName: String = ""
         var email: String = ""
         var password: String = ""
-        var passwordconf: String = ""
+
         var phoneNumber: String = ""
         var addresse: String = ""
 
@@ -17,14 +17,14 @@ package com.cscorner.diabetique
             fullName: String,
             email: String,
             password: String,
-            passwordconf: String,
+
             phoneNumber: String,
             addresse: String
         ) {
             this.fullName = fullName
             this.email = email
             this.password = password
-            this.passwordconf = passwordconf
+
             this.phoneNumber = phoneNumber
             this.addresse = addresse
         }

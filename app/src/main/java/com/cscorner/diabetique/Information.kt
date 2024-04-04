@@ -105,7 +105,7 @@ class Information : AppCompatActivity() {
     private fun checkExistingDoctor(doctor: String, callback: (Boolean) -> Unit) {
         val reference = database.getReference("doctors")
 
-        reference.orderByChild("fullName").equalTo(doctor)
+        reference.orderByChild("email").equalTo(doctor)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     callback(dataSnapshot.exists())

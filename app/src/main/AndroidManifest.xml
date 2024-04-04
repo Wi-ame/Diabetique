@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,23 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Diabetique"
         tools:targetApi="31">
-
+        <activity
+            android:name="doct_fragment.item_Patient"
+            android:exported="false" />
         <activity
             android:name=".Drawer2"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Inscr_Doc"
             android:exported="false" />
         <activity
             android:name=".Drawer"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Allergie"
             android:exported="false" />
@@ -37,9 +34,7 @@
             android:exported="false" />
         <activity
             android:name=".Information"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".poid_pat"
             android:exported="true" />
@@ -57,16 +52,19 @@
             android:exported="false" />
         <activity
             android:name=".Doctor_Auth"
-            android:exported="true">
-
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".EspacesActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>
