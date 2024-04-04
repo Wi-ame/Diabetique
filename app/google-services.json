@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "198173223618",
+    "project_id": "diabete-8a1b4",
+    "storage_bucket": "diabete-8a1b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198173223618:android:c9ded265ce23f0de34295b",
+        "android_client_info": {
+          "package_name": "com.cscorner.diabetique"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4-srJXynUOBBtfh451cP4_DjE3Djb5g4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
