@@ -4,9 +4,12 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.IgnoreExtraProperties
+import java.util.UUID
 
 @IgnoreExtraProperties
 class Patient() {
+    var statut: String=" "
+    var id: String = UUID.randomUUID().toString()
     var fullName: String = ""
     var email: String = ""
     var password: String = ""
@@ -19,6 +22,7 @@ class Patient() {
     var poids :String= ""
     var taille :String= ""
     var activite :String= ""
+
 
     constructor(
         fullName: String,

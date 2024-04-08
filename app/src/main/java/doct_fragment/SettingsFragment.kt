@@ -1,6 +1,8 @@
 package doct_fragment
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,18 +65,73 @@ class SettingsFragment : Fragment() {
         val doctorRef = databaseReference.child(currentUserUid)
         doctorRef.child("fullName").setValue(newName)
         doctorRef.child("email").setValue(newEmail)
-        doctorRef.child("password").setValue(newPassword) // Attention : il est recommandé de ne pas stocker les mots de passe en clair
         doctorRef.child("phoneNumber").setValue(newPhoneNumber)
         doctorRef.child("addresse").setValue(newAddress)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Affiche un message de confirmation en cas de succès
-                    Toast.makeText(requireContext(), "Modifications enregistrées avec succès", Toast.LENGTH_SHORT).show()
+                    // Met à jour l'email si changé
+                    val user = FirebaseAuth.getInstance().currentUser
+                    if (user?.email != newEmail) {
+                        user?.updateEmail(newEmail)?.addOnCompleteListener { emailUpdateTask ->
+                            if (emailUpdateTask.isSuccessful) {
+                                Log.d(TAG, "Email updated successfully")
+                                // Met à jour le mot de passe si changé
+                                if (newPassword.isNotEmpty()) {
+                                    user.updatePassword(newPassword).addOnCompleteListener { passwordUpdateTask ->
+                                        if (passwordUpdateTask.isSuccessful) {
+                                            Log.d(TAG, "Password updated successfully")
+                                            // Affiche un message de confirmation en cas de succès
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Modifications enregistrées avec succès",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            Log.e(TAG, "Failed to update password: ${passwordUpdateTask.exception}")
+                                            // Affiche un message d'erreur en cas d'échec de la mise à jour du mot de passe
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Erreur lors de la mise à jour du mot de passe",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                                } else {
+                                    Log.d(TAG, "No password change requested")
+                                    // Affiche un message de confirmation en cas de succès
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Modifications enregistrées avec succès",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else {
+                                Log.e(TAG, "Failed to update email: ${emailUpdateTask.exception}")
+                                // Affiche un message d'erreur en cas d'échec de la mise à jour de l'email
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Erreur lors de la mise à jour de l'email",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    } else {
+                        Log.d(TAG, "No email change requested")
+                        // Affiche un message de confirmation en cas de succès
+                        Toast.makeText(
+                            requireContext(),
+                            "Modifications enregistrées avec succès",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 } else {
                     // Affiche un message d'erreur en cas d'échec de la mise à jour
-                    Toast.makeText(requireContext(), "Erreur lors de la mise à jour des informations", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Erreur lors de la mise à jour des informations",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }
-
 }

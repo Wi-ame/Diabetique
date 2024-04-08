@@ -15,6 +15,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import doct_fragment.HomeFragment
 import doct_fragment.MenuFragment
 import doct_fragment.ProfileFragment
@@ -70,12 +74,59 @@ class Drawer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListe
             R.id.nav_settings -> navController.navigate(R.id.settingsFragment)
             R.id.nav_menu -> navController.navigate(R.id.menuFragment)
             R.id.nav_logout -> {
+                // Récupérer l'utilisateur actuellement connecté
+                val currentUser = FirebaseAuth.getInstance().currentUser
+
+                if (currentUser != null) {
+                    // Référence à la base de données
+                    val usersRef = FirebaseDatabase.getInstance().reference.child("doctors")
+
+                    // Effectuer une requête pour récupérer l'utilisateur avec l'email correspondant
+                    val query = usersRef.orderByChild("email").equalTo(currentUser.email)
+
+                    // Ajouter un écouteur pour récupérer les données une fois que la requête est exécutée
+                    query.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (snapshot.exists()) {
+                                // L'utilisateur avec cet email existe dans la base de données
+                                for (userSnapshot in snapshot.children) {
+                                    val userId = userSnapshot.key // Récupérer l'ID de l'utilisateur
+                                    if (!userId.isNullOrEmpty()) {
+                                        // Mettre à jour le statut de l'utilisateur à "Hors ligne"
+                                        userSnapshot.child("statut").ref.setValue("Hors ligne")
+                                            .addOnSuccessListener {
+                                                Log.d("UserLogout", "Statut utilisateur mis à jour avec succès : Hors ligne")
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Log.e("UserLogout", "Erreur lors de la mise à jour du statut utilisateur : ${e.message}")
+                                            }
+                                    } else {
+                                        Log.e("UserLogout", "Empty user ID")
+                                    }
+                                }
+                            } else {
+                                Log.e("UserLogout", "Aucun utilisateur trouvé avec cet email dans la base de données")
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // Gérer l'erreur lors de la récupération de l'utilisateur
+                            Log.e("Firebase", "Erreur lors de la récupération de l'utilisateur: $error")
+                        }
+                    })
+                } else {
+                    Log.e("UserLogout", "Current user is null")
+                }
+
+                // Se déconnecter de Firebase Auth
                 FirebaseAuth.getInstance().signOut()
-                // Rediriger vers LoginActivity (ou toute autre activité désirée)
+
+                // Rediriger vers l'activité de connexion
                 val intent = Intent(this@Drawer, Doctor_Auth::class.java)
                 startActivity(intent)
-                finish() // Facultatif : fermer l'activité actuelle si nécessaire
+                finish()
             }
+
         }
         drawerLayout.closeDrawers()
         return true
@@ -91,4 +142,17 @@ class Drawer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListe
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
+    fun updateUserStatus(userId: String, status: String) {
+        val patientsRef = FirebaseDatabase.getInstance().reference.child("patients").child(userId)
+        patientsRef.child("statut").setValue(status)
+            .addOnSuccessListener {
+                // Succès de la mise à jour du statut
+                Log.d("Firebase", "Statut utilisateur mis à jour avec succès : $status")
+            }
+            .addOnFailureListener { e ->
+                // Échec de la mise à jour du statut
+                Log.e("Firebase", "Erreur lors de la mise à jour du statut utilisateur : ${e.message}")
+            }
+    }
+
 }

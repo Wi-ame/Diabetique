@@ -1,7 +1,9 @@
 package com.cscorner.diabetique
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -21,6 +23,7 @@ class Doctor_Auth : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private lateinit var Forgotpass:TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_doctor_auth)
@@ -125,49 +128,92 @@ class Doctor_Auth : AppCompatActivity() {
         val intent = Intent(this, Inscr_Doc::class.java)
         startActivity(intent)
     }
-    private fun signIn(email: String, password: String) {
-        // Authentification de l'utilisateur avec le nouvel email et le nouveau mot de passe
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Connexion réussie, récupérer l'utilisateur actuel
-                    val currentUser = auth.currentUser
-                    currentUser?.let {
-                        // Mettre à jour le mot de passe dans la base de données Firebase Realtime Database
-                        databaseReference.child(currentUser.uid).child("password").setValue(password)
-                            .addOnSuccessListener {
-                                // Succès de la mise à jour du mot de passe dans la base de données
-                                Toast.makeText(
-                                    this@Doctor_Auth,
-                                    "Connexion réussie !",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+    private fun updateUserStatus(userId: String, status: String) {
+        val patientsRef = FirebaseDatabase.getInstance().reference.child("doctors").child(userId)
+        patientsRef.child("statut").setValue(status)
+            .addOnSuccessListener {
+                // Succès de la mise à jour du statut
+                Log.d("Firebase", "Statut utilisateur mis à jour avec succès : $status")
+            }
+            .addOnFailureListener { e ->
+                // Échec de la mise à jour du statut
+                Log.e("Firebase", "Erreur lors de la mise à jour du statut utilisateur : ${e.message}")
+            }
+    }
 
-                                // Démarrer l'activité Drawer avec l'e-mail de l'utilisateur
-                                startDrawerActivity(email)
-                                // Effacer les champs d'entrée
-                                usernameEditText.text.clear()
-                                passwordEditText.text.clear()
-                            }
-                            .addOnFailureListener { e ->
-                                // Échec de la mise à jour du mot de passe dans la base de données
-                                Toast.makeText(
-                                    this@Doctor_Auth,
-                                    "Erreur lors de la mise à jour du mot de passe dans la base de données: ${e.message}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+
+    private fun signIn(email: String, password: String) {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("doctors")
+        val query = usersRef.orderByChild("email").equalTo(email)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    // L'utilisateur avec cet email existe dans la base de données
+                    for (userSnapshot in snapshot.children) {
+                        val userId = userSnapshot.key // Récupérer l'ID de l'utilisateur
+                        if (!userId.isNullOrEmpty()) {
+                            // Authentifier l'utilisateur avec l'email et le mot de passe fournis
+                            auth.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        // Connexion réussie, récupérer l'utilisateur actuel
+                                        val currentUser = auth.currentUser
+                                        currentUser?.let {
+                                            // Mettre à jour le statut en ligne dès la connexion
+                                            updateUserStatus(userId, "En ligne")
+                                            // Mettre à jour le mot de passe dans la base de données Firebase Realtime Database
+                                            userSnapshot.child("password").ref.setValue(password)
+                                                .addOnSuccessListener {
+                                                    // Succès de la mise à jour du mot de passe dans la base de données
+                                                    Toast.makeText(
+                                                        this@Doctor_Auth,
+                                                        "Connexion réussie !",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                    startDrawerActivity(email)
+                                                    usernameEditText.text.clear()
+                                                    passwordEditText.text.clear()
+                                                }
+                                                .addOnFailureListener { e ->
+                                                    // Échec de la mise à jour du mot de passe dans la base de données
+                                                    Toast.makeText(
+                                                        this@Doctor_Auth,
+                                                        "Erreur lors de la mise à jour du mot de passe dans la base de données: ${e.message}",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                        }
+                                    } else {
+                                        // Échec de la connexion
+                                        Toast.makeText(
+                                            this@Doctor_Auth,
+                                            "Mot de passe incorrect: ${task.exception?.message}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                        } else {
+                            // ID de l'utilisateur est null ou vide
+                            Log.e("Firebase", "ID de l'utilisateur est null ou vide")
+                        }
                     }
                 } else {
-                    // Échec de la connexion
+                    // Aucun utilisateur trouvé avec cet email dans la base de données
                     Toast.makeText(
                         this@Doctor_Auth,
-                        "Mot de passe incorrect: ${task.exception?.message}",
+                        "Aucun utilisateur trouvé avec cet email",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Gérer l'erreur lors de la récupération de l'utilisateur
+                Log.e("Firebase", "Erreur lors de la récupération de l'utilisateur: $error")
+            }
+        })
     }
+
 
 
 }

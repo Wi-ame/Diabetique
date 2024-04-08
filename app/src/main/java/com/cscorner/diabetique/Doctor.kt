@@ -1,10 +1,13 @@
 package com.cscorner.diabetique
 
-    class Doctor {
+import java.util.UUID
+
+class Doctor {
+        var id: String = UUID.randomUUID().toString()
         var fullName: String = ""
         var email: String = ""
         var password: String = ""
-
+        var statut: String=" "
         var phoneNumber: String = ""
         var addresse: String = ""
 

@@ -66,5 +66,11 @@ dependencies {
     implementation ("com.firebaseui:firebase-ui-database:7.2.0")
 
 
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.3.0")
+
+
+
 
 }

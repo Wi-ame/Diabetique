@@ -3,10 +3,12 @@ package doct_fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
+import com.cscorner.diabetique.Doctor
 import com.cscorner.diabetique.Patient
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -24,7 +26,6 @@ class PatientAdapter(
     private var allPatients: MutableList<Patient> = mutableListOf()
 ) : FirebaseRecyclerAdapter<Patient, PatientAdapter.PatientViewHolder>(options) {
 
-    // Reste du code de l'adaptateur...
 
     private fun submitList(data: List<Patient>) {
         allPatients = data.toMutableList()
@@ -35,13 +36,13 @@ class PatientAdapter(
 
     // Reste du code de l'adaptateur...
     private  val databaseReference = FirebaseDatabase.getInstance().reference.child("patients")
-    interface OnItemClickListener {
-        fun onItemClick(patient: Patient)
+
+
         interface OnItemClickListener {
             fun onItemClick(patient: Patient)
-            fun onDetailsClick(patient: Patient)
+            fun onContactClick(patient: Patient)
         }
-    }
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientViewHolder {
@@ -53,7 +54,10 @@ class PatientAdapter(
     override fun onBindViewHolder(holder: PatientViewHolder, position: Int, model: Patient) {
 
         holder.bind(model)
-
+        holder.itemView.findViewById<Button>(R.id.message_button).setOnClickListener {
+            it.tag = model.id
+            listener.onContactClick(model)
+        }
     }
 
     inner class PatientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

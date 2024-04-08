@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Diabetique"
         tools:targetApi="31">
         <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
             android:name="doct_fragment.item_Patient"
             android:exported="false" />
         <activity
@@ -52,7 +55,7 @@
             android:exported="false" />
         <activity
             android:name=".Doctor_Auth"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".EspacesActivity"
             android:exported="true">
