@@ -23,6 +23,7 @@ class ProfileFragment : Fragment() {
     private lateinit var phoneNumberTextView: TextView
     private lateinit var addressTextView: TextView
 
+
     private val databaseReference = FirebaseDatabase.getInstance().reference
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private lateinit var settingsTextView: TextView
@@ -41,6 +42,7 @@ class ProfileFragment : Fragment() {
         phoneNumberTextView = view.findViewById(R.id.textViewPhoneNumber)
         addressTextView = view.findViewById(R.id.textViewAddress)
         settingsTextView = view.findViewById(R.id.textViewSettings)
+
         settingsTextView.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
 

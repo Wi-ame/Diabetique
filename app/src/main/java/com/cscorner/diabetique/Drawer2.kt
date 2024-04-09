@@ -1,6 +1,5 @@
 package com.cscorner.diabetique
 
-import android.app.Notification
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.cscorner.diabetique.pat_fragment.DoctorFragment
 import com.cscorner.diabetique.pat_fragment.HomeFragment
-import com.cscorner.diabetique.pat_fragment.NotificationFragment
+import com.cscorner.diabetique.pat_fragment.MealFragment
 import com.cscorner.diabetique.pat_fragment.ProfilFragment
 import com.cscorner.diabetique.pat_fragment.SettingsFragment
 import com.google.android.material.navigation.NavigationView
@@ -20,8 +20,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import doct_fragment.PatientAdapter
-import doct_fragment.ProfileFragment
 
 class Drawer2 : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -60,8 +58,9 @@ class Drawer2 : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
         when (item.itemId) {
             R.id.nav_home -> replaceFragment(HomeFragment())
             R.id.nav_settings -> replaceFragment(SettingsFragment())
-            R.id.nav_notification -> replaceFragment(NotificationFragment())
+            R.id.nav_menu -> replaceFragment(MealFragment())
             R.id.nav_profile -> replaceFragment(ProfilFragment())
+            R.id.nav_med -> replaceFragment(DoctorFragment())
             R.id.nav_logout -> {
                 // Récupérer l'utilisateur actuellement connecté
                 val currentUser = FirebaseAuth.getInstance().currentUser

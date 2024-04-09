@@ -205,7 +205,6 @@ class HomeFragment : Fragment() {
             }
     }
 
-
     private fun redirectToConversation(conversationId: String, patientId: String) {
         val intent = Intent(requireContext(), ChatActivity::class.java)
         intent.putExtra("conversationId", conversationId)

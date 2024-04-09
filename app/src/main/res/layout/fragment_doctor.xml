@@ -8,12 +8,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
-
         <!-- Image en-tête -->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/insc"
+            android:src="@drawable/profil_med"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:layout_marginBottom="30dp" />
@@ -22,8 +21,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mon Profil"
-            android:textSize="50sp"
+            android:text="Profil du médecin :"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:typeface="monospace"
             android:textColor="@color/lavender"
@@ -53,7 +52,7 @@
                 android:id="@+id/textViewName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nom complet "
+                android:text="Nom complet du médecin"
                 android:textSize="18sp"
                 android:layout_marginBottom="24dp" />
 
@@ -75,23 +74,7 @@
                 android:textSize="18sp"
                 android:layout_marginBottom="24dp" />
 
-            <!-- Label Mot de passe -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Age: "
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp" />
 
-            <!-- Mot de passe du médecin -->
-            <TextView
-                android:id="@+id/textViewAge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="age"
-                android:textSize="18sp"
-                android:layout_marginBottom="24dp" />
 
             <!-- Label Numéro de téléphone -->
             <TextView
@@ -107,7 +90,7 @@
                 android:id="@+id/textViewPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Numéro de téléphone "
+                android:text="Numéro de téléphone du médecin"
                 android:textSize="18sp"
                 android:layout_marginBottom="24dp" />
 
@@ -115,98 +98,29 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Poids:"
+                android:text="Adresse :"
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:layout_marginBottom="8dp" />
 
             <!-- Adresse du médecin -->
             <TextView
-                android:id="@+id/textViewPoids"
+                android:id="@+id/textViewAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Poids"
+                android:text="Adresse du médecin"
                 android:textSize="18sp"
                 android:layout_marginBottom="24dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Taille:"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp" />
-
-            <!-- Adresse du médecin -->
-            <TextView
-                android:id="@+id/textViewTaille"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Taille"
-                android:textSize="18sp"
-                android:layout_marginBottom="24dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Activité physique:"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp" />
-
-            <!-- Adresse du médecin -->
-            <TextView
-                android:id="@+id/TextViewActivite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="activite"
-                android:textSize="18sp"
-                android:layout_marginBottom="24dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Allergie:"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp" />
-
-            <!-- Adresse du médecin -->
-            <TextView
-                android:id="@+id/textViewAllergie"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Allergie"
-                android:textSize="18sp"
-                android:layout_marginBottom="24dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Type de diabète :"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp" />
-
-            <!-- Adresse du médecin -->
-            <TextView
-                android:id="@+id/textViewdiabete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="diabete"
-                android:textSize="18sp"
-                android:layout_marginBottom="24dp" />
-
-
         </LinearLayout>
-
-        <!-- TextView pour les paramètres -->
-        <TextView
-            android:id="@+id/textViewSettings"
+        <Button
+            android:id="@+id/message_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cliquez sur Paramètres pour modifier votre profil"
-            android:textSize="17sp"
-            android:textStyle="italic"
-            android:textColor="@color/lavender"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="center_horizontal" />
+            android:backgroundTint="@color/lavender"
+           android:layout_gravity="center"
+            android:text="Contacter"/>
+
+
 
     </LinearLayout>
 </ScrollView>

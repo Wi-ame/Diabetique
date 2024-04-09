@@ -14,13 +14,13 @@
             android:icon="@drawable/nav_profile"
             android:title="Profil"/>
         <item
-            android:id="@+id/nav_conseils"
-            android:icon="@drawable/nav_menu"
-            android:title="Conseils"/>
-        <item
-            android:id="@+id/nav_notification"
+            android:id="@+id/nav_med"
             android:icon="@drawable/nav_msg"
-            android:title="Notification"/>
+            android:title="Mon Médecin"/>
+        <item
+            android:id="@+id/nav_menu"
+            android:icon="@drawable/nav_menu"
+            android:title="Menu"/>
     </group>
     <item
         android:title="">

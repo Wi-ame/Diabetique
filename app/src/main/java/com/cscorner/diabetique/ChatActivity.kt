@@ -26,41 +26,42 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var  sendMessageButton:ImageView
     private lateinit var  messageBox:EditText
     private lateinit var senderId :String
-    private lateinit var idconv:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        val toolbarNameTextView: TextView =
-            findViewById(R.id.name) // Référence au TextView dans la Toolbar
-        Id = intent.getStringExtra("patientId") ?: ""// Assurez-vous que le bon layout est chargé ici
-        if (Id != null) {
-            Log.d("PatientID", "ID du patient récupéré avec succès : $Id")
-        } else {
-            Log.e(
-                "PatientID",
-                "Erreur : Impossible de récupérer l'ID du patient à partir de l'intent"
-            )
-        }
-
+        val toolbarNameTextView: TextView = findViewById(R.id.name) // Référence au TextView dans la Toolbar
+        Id = intent.getStringExtra("patientId") ?: ""
+        Log.d("PatientID", "ID du patient récupéré avec succès : $Id")
 
         val conversationId = intent.getStringExtra("conversationId")
-        // Récupérer la référence du RecyclerView depuis le layout
+
         recyclerView = findViewById(R.id.recyclerView)
-        status=findViewById(R.id.status)
-        sendMessageButton =findViewById(R.id.id_send)
-         messageBox = findViewById(R.id.messageBox)
+        status = findViewById(R.id.status)
+        sendMessageButton = findViewById(R.id.id_send)
+        messageBox = findViewById(R.id.messageBox)
+
+        // Initialize senderId with an empty string
+        senderId = ""
+
+        // Initialize MessagesAdapter with an empty list
+        messagesAdapter = MessagesAdapter(senderId)
+        recyclerView.adapter = messagesAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
         if (conversationId != null) {
-            // Récupérer l'objet Conversation correspondant à l'ID de la conversation
             val conversationRef = FirebaseDatabase.getInstance().reference.child("conversations").child(conversationId)
             conversationRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         val doctorId = snapshot.child("doctorId").getValue(String::class.java)
                         if (doctorId != null) {
-                             senderId=doctorId
-
+                            senderId = doctorId
                             Log.d("ChatActivity", "ID du médecin récupéré : $doctorId")
+                            // Update MessagesAdapter with the correct senderId
+                            messagesAdapter = MessagesAdapter(senderId)
+                            recyclerView.adapter = messagesAdapter
                         } else {
                             Log.e("ChatActivity", "ID du médecin non trouvé pour la conversation : $conversationId")
                         }
@@ -68,7 +69,6 @@ class ChatActivity : AppCompatActivity() {
                         Log.e("ChatActivity", "Aucune donnée trouvée pour l'ID de la conversation : $conversationId")
                     }
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                     Log.e("ChatActivity", "Erreur lors de la récupération de la conversation : $error")
                 }
@@ -76,16 +76,12 @@ class ChatActivity : AppCompatActivity() {
         } else {
             Log.e("ChatActivity", "ID de la conversation est null")
         }
-        // Initialiser l'adaptateur de messages avec l'ID de l'utilisateur actuel
-        messagesAdapter =
-            MessagesAdapter("currentUserId") // Remplacez "currentUserId" par l'ID de l'utilisateur actuel
+
+
+        // Remplacez "currentUserId" par l'ID de l'utilisateur actuel
         val patientId = Id.toString().trim()
         // Définir l'orientation du RecyclerView (optionnel)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Définir l'adaptateur de messages sur votre RecyclerView
-        recyclerView.adapter = messagesAdapter
-
 
 
         retrievePatientName(patientId) { patientName ->
@@ -95,16 +91,18 @@ class ChatActivity : AppCompatActivity() {
             status.text = Status
 
         }
-        if(conversationId != null) {
-            idconv=conversationId
+        if (conversationId != null) {
+            fetchSentMessages(conversationId)
         }
+
         sendMessageButton.setOnClickListener {
             val messageText = messageBox.text.toString().trim()
             if (messageText.isNotEmpty()) {
                 val senderId = senderId // Vous devez remplacer ceci par l'ID de l'utilisateur actuel
                 val recipientId = patientId // Utilisez l'ID du patient comme destinataire
-                sendMessageToPatient(messageText, senderId, recipientId)
-                fetchSentMessages(idconv)
+                if (conversationId != null) {
+                    sendMessageToPatient(messageText,conversationId, recipientId,senderId)
+                }
 
             } else {
                 Toast.makeText(this, "Veuillez saisir un message", Toast.LENGTH_SHORT).show()
@@ -186,43 +184,49 @@ class ChatActivity : AppCompatActivity() {
             callback(null)
         }
     }
-    private fun sendMessageToPatient(messageText: String, senderId: String, recipientId: String) {
-        val messagesRef = FirebaseDatabase.getInstance().reference.child("messages")
-        val messageId = messagesRef.push().key ?: return // Générer un ID unique pour le message
-        val message = Message(messageId, senderId, recipientId, messageText, System.currentTimeMillis())
+
+    private fun sendMessageToPatient(messageText: String,conversationId:String,patientId:String,doctorId:String) {
+        val messagesRef = FirebaseDatabase.getInstance().reference
+            .child("messages")
+            .child(conversationId)
+
+        val messageId = messagesRef.push().key ?: return // Generate unique ID for the message
+        val message = Message(messageId, conversationId, doctorId, patientId, messageText, System.currentTimeMillis())
         messagesRef.child(messageId).setValue(message)
             .addOnSuccessListener {
                 Toast.makeText(this, "Message envoyé", Toast.LENGTH_SHORT).show()
                 messageBox.text.clear()
             }
             .addOnFailureListener { e ->
-                Log.e("Firebase", "Erreur lors de l'envoi du message : ${e.message}")
+                Log.e("ChatActivity", "Erreur lors de l'envoi du message : ${e.message}")
                 Toast.makeText(this, "Erreur lors de l'envoi du message", Toast.LENGTH_SHORT).show()
             }
     }
-    private fun fetchSentMessages(conversationId: String) {
-        val messagesRef = FirebaseDatabase.getInstance().reference.child("messages")
-        val query = messagesRef.orderByChild("conversationId").equalTo(conversationId)
-
-        query.addValueEventListener(object : ValueEventListener {
+    private fun fetchSentMessages(conversationId:String) {
+        val messagesRef = FirebaseDatabase.getInstance().reference
+            .child("messages")
+            .child(conversationId)
+        messagesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val sentMessages = mutableListOf<Message>()
+
                 for (messageSnapshot in snapshot.children) {
                     val message = messageSnapshot.getValue(Message::class.java)
-                    if (message != null && message.senderId == senderId) {
-                        sentMessages.add(message)
-                    }
+                    message?.let { sentMessages.add(it) }
                 }
-                // Mettez à jour votre adaptateur de messages avec les messages envoyés
+
+                // Sort messages by timestamp
+                sentMessages.sortBy { it.timestamp }
+
+                // Update adapter with sent messages
                 messagesAdapter.submitList(sentMessages)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e("Firebase", "Erreur lors de la récupération des messages envoyés : $error")
+                Log.e("ChatActivity", "Error fetching sent messages: $error")
             }
         })
     }
-
 
     // Fonction pour envoyer un message au patient
 
