@@ -3,7 +3,6 @@ package com.cscorner.diabetique
 import java.util.UUID
 
 class Doctor {
-        var id: String = UUID.randomUUID().toString()
         var fullName: String = ""
         var email: String = ""
         var password: String = ""

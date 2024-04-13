@@ -176,27 +176,11 @@ class Pat_Auth : AppCompatActivity() {
                                         currentUser?.let {
                                             // Mettre à jour le statut en ligne dès la connexion
                                             updateUserStatus(userId, "En ligne")
-                                            // Mettre à jour le mot de passe dans la base de données Firebase Realtime Database
-                                            userSnapshot.child("password").ref.setValue(password)
-                                                .addOnSuccessListener {
-                                                    // Succès de la mise à jour du mot de passe dans la base de données
-                                                    Toast.makeText(
-                                                        this@Pat_Auth,
-                                                        "Connexion réussie !",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                    startnextActivity()
-                                                    usernameEditText.text.clear()
-                                                    passwordEditText.text.clear()
-                                                }
-                                                .addOnFailureListener { e ->
-                                                    // Échec de la mise à jour du mot de passe dans la base de données
-                                                    Toast.makeText(
-                                                        this@Pat_Auth,
-                                                        "Erreur lors de la mise à jour du mot de passe dans la base de données: ${e.message}",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }
+                                            // Rediriger l'utilisateur vers l'activité appropriée
+                                            startnextActivity()
+                                            // Effacer les champs d'entrée
+                                            usernameEditText.text.clear()
+                                            passwordEditText.text.clear()
                                         }
                                     } else {
                                         // Échec de la connexion
@@ -228,6 +212,5 @@ class Pat_Auth : AppCompatActivity() {
             }
         })
     }
-
 
 }

@@ -69,11 +69,37 @@ class HomeFragment : Fragment() {
                 showPatientDetailsDialog(patient)
             }
 
-
             override fun onContactClick(patient: Patient) {
-                currentDoctorId = currentUser?.uid ?: ""
-                checkConversationExistence(patient, currentDoctorId)
+                val currentUser = FirebaseAuth.getInstance().currentUser
+                val currentDoctorEmail = currentUser?.email ?: ""
+
+                // Référence à la base de données pour les médecins
+                val doctorsRef = FirebaseDatabase.getInstance().reference.child("doctors")
+
+                // Recherchez le médecin actuel dans la base de données en utilisant son e-mail
+                doctorsRef.orderByChild("email").equalTo(currentDoctorEmail).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            // Si le médecin est trouvé, récupérez sa clé (ID du nœud)
+                            val doctorKey = dataSnapshot.children.firstOrNull()?.key
+                            if (doctorKey != null) {
+                                // Utilisez la clé du médecin pour vérifier l'existence de la conversation
+                                checkConversationExistence(patient, doctorKey)
+                            } else {
+                                Log.e(TAG, "Clé du médecin non trouvée dans la base de données.")
+                            }
+                        } else {
+                            Log.e(TAG, "Aucun médecin trouvé dans la base de données avec l'e-mail : $currentDoctorEmail")
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        Log.e(TAG, "Erreur lors de la récupération du médecin dans la base de données: ${databaseError.message}")
+                    }
+                })
             }
+
+
         })
 
         // Définir l'adaptateur pour le RecyclerView
@@ -151,7 +177,7 @@ class HomeFragment : Fragment() {
             .setPositiveButton("Fermer", null)
             .show()
     }
-    private fun checkConversationExistence(patient: Patient,doctorId: String) { // Correction 1: Ajout de la virgule pour séparer les paramètres
+    private fun checkConversationExistence(patient: Patient, doctorId: String) {
         // Référence à la base de données pour les conversations
         val conversationRef = FirebaseDatabase.getInstance().reference.child("conversations")
 
@@ -163,16 +189,19 @@ class HomeFragment : Fragment() {
                     var conversationId: String? = null
                     for (childSnapshot in snapshot.children) {
                         val conversation = childSnapshot.getValue(Conversation::class.java)
-                        if (conversation?.doctorId == currentDoctorId) {
+                        if (conversation?.doctorId == doctorId && conversation.patientId == patient.id) {
+                            // La conversation existe déjà pour ce médecin et ce patient
                             conversationExists = true
                             conversationId = childSnapshot.key
                             break
                         }
                     }
                     if (conversationExists && conversationId != null) {
-                        redirectToConversation(conversationId,patient.id)
+                        // Rediriger vers la conversation existante
+                        redirectToConversation(conversationId, patient.id)
                     } else {
-                        createNewConversation(patient, doctorId) // Correction 2: Ajout du paramètre 'doctor'
+                        // Créer une nouvelle conversation
+                        createNewConversation(patient, doctorId)
                     }
                 }
 
