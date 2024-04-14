@@ -11,7 +11,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.cscorner.diabetique.pat_fragment.DoctorFragment
 import com.cscorner.diabetique.pat_fragment.HomeFragment
-import com.cscorner.diabetique.pat_fragment.MealFragment
 import com.cscorner.diabetique.pat_fragment.ProfilFragment
 import com.cscorner.diabetique.pat_fragment.SettingsFragment
 import com.google.android.material.navigation.NavigationView
@@ -20,6 +19,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import doct_fragment.MenuFragment
 
 class Drawer2 : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -58,7 +58,7 @@ class Drawer2 : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
         when (item.itemId) {
             R.id.nav_home -> replaceFragment(HomeFragment())
             R.id.nav_settings -> replaceFragment(SettingsFragment())
-            R.id.nav_menu -> replaceFragment(MealFragment())
+            R.id.nav_menu -> replaceFragment(MenuFragment())
             R.id.nav_profile -> replaceFragment(ProfilFragment())
             R.id.nav_med -> replaceFragment(DoctorFragment())
             R.id.nav_logout -> {

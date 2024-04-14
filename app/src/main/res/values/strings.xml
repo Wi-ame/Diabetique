@@ -8,6 +8,7 @@
     <string name="txt_src">Source</string>
     <string name="txt_yield">Yield</string>
     <string name="txt_calories">Calories</string>
-    <string name="txt_weight">TotalWeight</string>
+    <string name="txt_nutriens">nutrients</string>
     <string name="app_name2">AnswerAndQuestion</string>
+    <string name="instructions_text">• Première instruction\n• Deuxième instruction\n• Troisième instruction\n</string>
 </resources>

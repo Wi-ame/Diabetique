@@ -80,8 +80,8 @@ class ChatActivity : AppCompatActivity() {
 
         // Remplacez "currentUserId" par l'ID de l'utilisateur actuel
         val patientId = Id.toString().trim()
-        // Définir l'orientation du RecyclerView (optionnel)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+
+
 
 
         retrievePatientName(patientId) { patientName ->
@@ -93,6 +93,9 @@ class ChatActivity : AppCompatActivity() {
         }
         if (conversationId != null) {
             fetchSentMessages(conversationId)
+        }
+        if (conversationId != null) {
+            fetchReceivedMessages(conversationId, Id)
         }
 
         sendMessageButton.setOnClickListener {
@@ -227,6 +230,38 @@ class ChatActivity : AppCompatActivity() {
             }
         })
     }
+    private fun fetchReceivedMessages(conversationId: String, patientId:  String) {
+        val messagesRef = FirebaseDatabase.getInstance().reference
+            .child("messages")
+            .child(conversationId)
+
+        messagesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val receivedMessages = mutableListOf<Message>()
+
+                for (messageSnapshot in snapshot.children) {
+                    val message = messageSnapshot.getValue(Message::class.java)
+                    message?.let {
+                        // Vérifiez si le destinataire du message est le médecin
+                        if (it.recipientId == patientId) {
+                            receivedMessages.add(it)
+                        }
+                    }
+                }
+
+                // Triez les messages par timestamp
+                receivedMessages.sortBy { it.timestamp }
+
+                // Mettez à jour l'adaptateur avec les messages reçus
+                messagesAdapter.submitList(receivedMessages)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("ChatActivity2", "Erreur lors de la récupération des messages reçus : $error")
+            }
+        })
+    }
+
 
     // Fonction pour envoyer un message au patient
 

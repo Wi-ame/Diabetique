@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Diabetique"
         tools:targetApi="31">
         <activity
+            android:name=".pat_fragment.IngredientsActivity"
+            android:exported="false" />
+        <activity
             android:name=".pat_fragment.Chat2Activity"
             android:exported="false" />
         <activity
@@ -64,7 +67,7 @@
             android:exported="true" />
         <activity
             android:name=".EspacesActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

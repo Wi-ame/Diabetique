@@ -1,5 +1,6 @@
 package com.cscorner.diabetique.apis
 
+import com.cscorner.diabetique.models.RecipeModel
 import com.cscorner.diabetique.response.SearchRecipes
 import retrofit2.Call
 import retrofit2.http.GET
@@ -13,4 +14,5 @@ interface APIClient {
         @Query("app_id") idApp: String,
         @Query("app_key") keyApp: String
     ): Call<SearchRecipes>
+
 }

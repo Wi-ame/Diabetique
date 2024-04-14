@@ -1,6 +1,7 @@
 package doct_fragment
 import RootObjectModel
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cscorner.diabetique.R
 import com.cscorner.diabetique.adapter.RecipeAdapter
 import com.cscorner.diabetique.apis.APIClient
+import com.cscorner.diabetique.pat_fragment.IngredientsActivity
 import com.cscorner.diabetique.response.SearchRecipes
 import com.cscorner.diabetique.utils.APICredentials
 import retrofit2.Call
@@ -27,7 +29,6 @@ class MenuFragment : Fragment() {
     private lateinit var adapter: RecipeAdapter
     private lateinit var searchView: SearchView
     private var recipes: ArrayList<RootObjectModel> = arrayListOf()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +37,7 @@ class MenuFragment : Fragment() {
         searchView = view.findViewById(R.id.searchView)
         searchView.queryHint = "Type here to search"
         recylerView = view.findViewById(R.id.recyclerView)
-        adapter = RecipeAdapter(this, recipes)
+
         recylerView.layoutManager = LinearLayoutManager(context)
 
 
@@ -54,6 +55,7 @@ class MenuFragment : Fragment() {
 
         return view
     }
+
 
     private fun searchRecipes(query: String) {
         val retrofit: Retrofit = Retrofit.Builder()
@@ -88,14 +90,28 @@ class MenuFragment : Fragment() {
                             Log.d(TAG, "Label: ${recipeModel.label}")
                             Log.d(TAG, "Source: ${recipeModel.source}")
                             Log.d(TAG, "Yield: ${recipeModel.yield}")
-                            Log.d(TAG, "Calories: ${recipeModel.calories}")
-                            Log.d(TAG, "Total Weight: ${recipeModel.totalWeights}")
+                            Log.d(TAG, "instructions: ${recipeModel.cautions}")
+
+
                         }
                     }
 
                     recipes = newRecipes
 
-                    adapter = RecipeAdapter(this@MenuFragment, recipes)
+                    adapter = RecipeAdapter(this@MenuFragment, recipes, object :
+                        RecipeAdapter.RecipeClickListener {
+                        override fun onRecipeClicked(recipeIngredients: Array<String>, recipeCautions: Array<String>, imageUrl: String) {
+                            val intent = Intent(activity, IngredientsActivity::class.java)
+                            // Ajoutez les ingrédients, les instructions et l'URL de l'image comme extra à l'Intent
+                            intent.putExtra("RECIPE_INGREDIENTS", recipeIngredients)
+                            intent.putExtra("RECIPE_CAUTIONS", recipeCautions)
+                            intent.putExtra("RECIPE_IMAGE_URL", imageUrl)
+                            // Lancez l'activité avec l'Intent
+                            startActivity(intent)
+                        }
+
+                    })
+
                     recylerView.adapter = adapter
                 }
             }
@@ -104,6 +120,9 @@ class MenuFragment : Fragment() {
                 Log.v(TAG, "onFailure(): ${t.message}")
             }
         })
-
     }
+
+
 }
+
+

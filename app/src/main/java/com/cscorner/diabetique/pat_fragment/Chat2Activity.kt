@@ -39,7 +39,6 @@ class Chat2Activity : AppCompatActivity() {
         sendMessageButton = findViewById(R.id.id_send)
         messageBox = findViewById(R.id.messageBox)
         senderId = ""
-
         messagesAdapter = MessagesAdapter(senderId)
         recyclerView.adapter = messagesAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -79,6 +78,10 @@ class Chat2Activity : AppCompatActivity() {
         if (conversationId != null) {
             fetchSentMessages(conversationId)
         }
+        if (conversationId != null) {
+            fetchReceivedMessages(conversationId, Id)
+        }
+
         sendMessageButton.setOnClickListener {
             val messageText = messageBox.text.toString().trim()
             if (messageText.isNotEmpty()) {
@@ -92,8 +95,6 @@ class Chat2Activity : AppCompatActivity() {
                 Toast.makeText(this, "Veuillez saisir un message", Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
 
     private fun retrieveDoctorName(doctorId: String?, callback: (String?) -> Unit) {
@@ -206,5 +207,38 @@ class Chat2Activity : AppCompatActivity() {
             }
         })
     }
+    private fun fetchReceivedMessages(conversationId: String, doctorId: String) {
+        val messagesRef = FirebaseDatabase.getInstance().reference
+            .child("messages")
+            .child(conversationId)
+
+        messagesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val receivedMessages = mutableListOf<Message>()
+
+                for (messageSnapshot in snapshot.children) {
+                    val message = messageSnapshot.getValue(Message::class.java)
+                    message?.let {
+                        // Vérifiez si le destinataire du message est le médecin
+                        if (it.recipientId == doctorId) {
+                            receivedMessages.add(it)
+                        }
+                    }
+                }
+
+                // Triez les messages par timestamp
+                receivedMessages.sortBy { it.timestamp }
+
+                // Mettez à jour l'adaptateur avec les messages reçus
+                messagesAdapter.submitList(receivedMessages)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("ChatActivity2", "Erreur lors de la récupération des messages reçus : $error")
+            }
+        })
+    }
+
+
 
 }
