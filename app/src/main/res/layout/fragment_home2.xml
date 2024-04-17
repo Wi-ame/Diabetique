@@ -1,14 +1,112 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".pat_fragment.HomeFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+   <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:src="@drawable/saisie"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Saisie de la glycémie"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:textColor="@color/lavender"
+        android:typeface="monospace"
+        android:layout_marginBottom="16dp"/>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:text="Glycémie matinale avant le repas"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/lavender"
+        android:background="@color/lavender1"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/editTextGlycemiaBeforeMeal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:hint="Entrez la valeur de la glycémie"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Champ pour la glycémie matinale après le repas -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/lavender"
+        android:background="@color/lavender1"
+        android:textStyle="bold"
+        android:text="Glycémie matinale après le repas"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/editTextGlycemiaAfterMeal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:hint="Entrez la valeur de la glycémie"
+        android:layout_marginBottom="16dp"/>
+
+
+    <CheckBox
+        android:id="@+id/checkBoxPhysicalActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activité physique pratiquée"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Champ pour le type de glucides consommés -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type de glucides consommés"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/lavender"
+        android:background="@color/lavender1"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="je vous recommande de visiter les recettes proposées par l'application ou par votre médecin traitant"
+        android:layout_marginBottom="15dp"
+        android:textSize="18sp"
+        android:textStyle="italic"/>
+
+    <EditText
+        android:id="@+id/editTextCarbohydrateType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Entrez le type de glucides"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Bouton de soumission -->
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Soumettre"
+        android:backgroundTint="@color/lavender"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"/>
+
+</LinearLayout>
+</ScrollView>

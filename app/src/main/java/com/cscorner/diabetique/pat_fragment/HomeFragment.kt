@@ -5,56 +5,114 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
 import com.cscorner.diabetique.R
+import com.cscorner.diabetique.models.GlycemieData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var editTextGlycemiaBeforeMeal: EditText
+    private lateinit var editTextGlycemiaAfterMeal: EditText
+    private lateinit var checkBoxPhysicalActivity: CheckBox
+    private lateinit var editTextCarbohydrateType: EditText
+    private lateinit var buttonSubmit: Button
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var databaseReference: DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home2, container, false)
+        val view = inflater.inflate(R.layout.fragment_home2, container, false)
+
+        editTextGlycemiaBeforeMeal = view.findViewById(R.id.editTextGlycemiaBeforeMeal)
+        editTextGlycemiaAfterMeal = view.findViewById(R.id.editTextGlycemiaAfterMeal)
+        checkBoxPhysicalActivity = view.findViewById(R.id.checkBoxPhysicalActivity)
+        editTextCarbohydrateType = view.findViewById(R.id.editTextCarbohydrateType)
+        buttonSubmit = view.findViewById(R.id.buttonSubmit)
+        firebaseAuth = FirebaseAuth.getInstance()
+        databaseReference = FirebaseDatabase.getInstance().reference
+        buttonSubmit.setOnClickListener {
+            saveGlycemiaData()
+        }
+        return view
+    }
+    private fun saveGlycemiaData() {
+        val user: FirebaseUser? = firebaseAuth.currentUser
+        val userId: String? = user?.uid
+
+        // Obtention de l'ID du patient à partir de la base de données
+        getUserIdFromDatabase { patientId ->
+            // Vérification de la non-nullité de l'ID du patient
+            userId?.let {
+                val glycemiaBeforeMeal = editTextGlycemiaBeforeMeal.text.toString().toDoubleOrNull()
+                val glycemiaAfterMeal = editTextGlycemiaAfterMeal.text.toString().toDoubleOrNull()
+                val physicalActivity = checkBoxPhysicalActivity.isChecked
+                val carbohydrateType = editTextCarbohydrateType.text.toString()
+
+                // Création de l'objet GlycemieData avec l'ID du patient
+                val glycemiaData = GlycemieData(
+                    patientId, // Utilisation de l'ID du patient récupéré
+                    glycemiaBeforeMeal,
+                    glycemiaAfterMeal,
+                    physicalActivity,
+                    carbohydrateType
+                )
+
+                // Enregistrement des données dans la base de données
+                databaseReference.child("patients").child(patientId).child("glycemiaData").push()
+                    .setValue(glycemiaData)
+                    .addOnSuccessListener {
+                        // Enregistrement réussi
+                        editTextGlycemiaBeforeMeal.text.clear()
+                        editTextGlycemiaAfterMeal.text.clear()
+                        checkBoxPhysicalActivity.isChecked = false
+                        editTextCarbohydrateType.text.clear()
+                    }
+                    .addOnFailureListener { e ->
+                        // Gérer l'échec de l'enregistrement
+                    }
+            }
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun getUserIdFromDatabase(callback: (String) -> Unit) {
+        // Écoute des changements dans le nœud "patients"
+        databaseReference.child("patients").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Parcourir tous les enfants du nœud "patients"
+                snapshot.children.forEach { patientSnapshot ->
+                    // Récupérer l'ID du patient (clé du snapshot)
+                    val patientId = patientSnapshot.key
+                    // Appeler le callback avec l'ID du patient
+                    if (patientId != null) {
+                        callback(patientId)
+                        return@forEach
+                    }
                 }
             }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Gérer l'erreur
+            }
+        })
     }
+
+
 }
